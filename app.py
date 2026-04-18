@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/")
 def home():
@@ -9,18 +11,10 @@ def home():
 @app.route("/predict", methods=["POST"])
 def predict():
     file = request.files["file"]
-
-    # save temporarily
     filepath = "temp.jpg"
     file.save(filepath)
 
-    # 🔥 for now dummy response
-    result = {
+    return jsonify({
         "status": "success",
         "message": "Image received. Model will run here."
-    }
-
-    return jsonify(result)
-
-if __name__ == "__main__":
-    app.run()
+    })
